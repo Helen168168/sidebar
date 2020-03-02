@@ -1,6 +1,6 @@
 <template>
   <div class='container'>
-    <div style='display: inline-block; vertical-align: top; center; width: 30%'>
+    <div style='display: inline-block; vertical-align: top; center; width: 25%'>
       <el-menu default-active="1"
         :router='true'
         :unique-opened="true"
@@ -18,15 +18,15 @@
         </template>
     </el-menu>
     </div>
-    <div style='display: inline-block; vertical-align: top; width: 68%'>
-    <el-tabs v-model="active" type="card" closable @tab-remove="removeTab">
-      <el-tab-pane
-      :key="item.meta.title"
-      v-for="item in tabsLabel"
-      :label="item.meta.title"
-      :name="item.meta.title">
-      <router-view />
-    </el-tab-pane>
+    <div style='display: inline-block; vertical-align: top; width: 72%'>
+    <el-tabs v-model="active" type="card" @tab-click="clickTab"  @tab-remove="removeTab">
+      <el-tab-pane :key="item.meta.title"
+        v-for="(item, index) in tabsLabel"
+        :label="item.meta.title"
+        :closable='index !== 0'
+        :name="item.meta.title">
+          <router-view />
+      </el-tab-pane>
     </el-tabs>
     </div>
   </div>
@@ -37,25 +37,44 @@ export default {
   name: 'sidebar',
   data() {
     return {
-       routers: [],
-       active: '',
-       tabsLabel: []
+      routers: [],
+      active: '',
+      tabsLabel: [
+        {  
+          path: '/',
+          name: 'sidebar',
+          component: () => import('@/components/sidebar.vue'),
+          meta: {
+            title: '首页'
+          },
+          children: []
+        }
+      ]
     }
   },
   created() {
     this.routers = this.$router.options.routes;
+    this.active = this.tabsLabel[0].meta.title;
   },
   methods: {
     selectMenu(item) {
-      this.tabsLabel.push(item);
+      let isRepeat = this.tabsLabel.some(ele => {
+        return item.meta.title === ele.meta.title;
+      })
+      if(!isRepeat) {
+        this.tabsLabel.push(item);
+      }
+      this.active = item.meta.title;
     },
-    removeTab() {
 
+    removeTab(tag) {
+      this.tabsLabel.splice(this.tabsLabel.indexOf(tag), 1);
     },
-    handleClose(tag) {
-      this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-    },
-  },
+
+    clickTab(tag) {
+      
+    }
+  }
 }
 </script>
 
