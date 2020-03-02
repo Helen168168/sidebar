@@ -1,10 +1,10 @@
 <template>
   <div class='container'>
     <div style='display: inline-block; vertical-align: top; center; width: 25%'>
-      <el-menu default-active="1"
+      <el-menu :default-active="activeMenu"
         :router='true'
         :unique-opened="true"
-        background-color="#545c64"
+        background-color="#4BD0FF"
         text-color="#fff"
         active-text-color="#ffd04b">
         <template v-for='item in routers'>
@@ -16,8 +16,9 @@
             </el-menu-item-group>
           </el-submenu>
         </template>
-    </el-menu>
+      </el-menu>
     </div>
+
     <div style='display: inline-block; vertical-align: top; width: 72%'>
     <el-tabs v-model="active" type="card" @tab-click="clickTab"  @tab-remove="removeTab">
       <el-tab-pane :key="item.meta.title"
@@ -25,7 +26,7 @@
         :label="item.meta.title"
         :closable='index !== 0'
         :name="item.meta.title">
-          <router-view />
+        <router-view />
       </el-tab-pane>
     </el-tabs>
     </div>
@@ -38,23 +39,16 @@ export default {
   data() {
     return {
       routers: [],
+      activeMenu: '1',
       active: '',
-      tabsLabel: [
-        {  
-          path: '/',
-          name: 'sidebar',
-          component: () => import('@/components/sidebar.vue'),
-          meta: {
-            title: '首页'
-          },
-          children: []
-        }
-      ]
+      tabsLabel: []
     }
   },
   created() {
     this.routers = this.$router.options.routes;
+    this.tabsLabel.push(this.routers[0]);
     this.active = this.tabsLabel[0].meta.title;
+    
   },
   methods: {
     selectMenu(item) {
