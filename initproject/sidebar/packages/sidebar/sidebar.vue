@@ -38,69 +38,19 @@ export default {
   name: 'sidebar',
   data() {
     return {
-      routers: [
-{
-    path: '/',
-    name: 'sidebar',
-    component: () => import('@/components/sidebar.vue'),
-    meta: {
-        title: '首页'
-    },
-    children: [
-       
-    ]
-},
-
-{
-    path: '/sidebar1',
-    name: 'sidebar1',
-    component:() => import('@/components/sidebar.vue'),
-    meta: {
-        title: '首页1'
-    },
-    children: [
-        {
-            path: '/sidebar1-1',
-            name: 'sidebar1-1',
-            component: () => import('@/components/sidebar.vue'),
-            meta: {
-                title: '首页1-1'
-            }
-        }
-    ]
-},
-
-{
-    path: '/sidebar2',
-    name: 'sidebar2',
-    component: () => import('@/components/sidebar.vue'),
-    meta: {
-        title: '首页2'
-    },
-    children: []
-},
-
-{
-    path: '/sidebar3',
-    name: 'sidebar3',
-    component: () => import('@/components/sidebar.vue'),
-    meta: {
-        title: '首页3'
-    },
-    children: []
-}
-],
       activeMenu: '1',
       active: '',
-      tabsLabel: []
+      tabsLabel: [],
+      routers: []
     }
   },
+
   created() {
-    // this.routers = this.$router.options.routes;
+    this.routers = this.$router.options.routes;
     this.tabsLabel.push(this.routers[0]);
     this.active = this.tabsLabel[0].meta.title;
-    
   },
+
   methods: {
     selectMenu(item) {
       let isRepeat = this.tabsLabel.some(ele => {
@@ -116,9 +66,7 @@ export default {
       this.tabsLabel.splice(this.tabsLabel.indexOf(tag), 1);
     },
 
-    clickTab(tag) {
-      
-    }
+    clickTab(tag) {}
   }
 }
 </script>

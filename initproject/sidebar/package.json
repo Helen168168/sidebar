@@ -1,6 +1,6 @@
 {
   "name": "basic-sidebar",
-  "version": "0.1.6",
+  "version": "0.1.11",
   "private": false,
   "main": "./lib/basic-sidebar.umd.min.js",
   "scripts": {
